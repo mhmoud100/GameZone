@@ -1,32 +1,26 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,TouchableWithoutFeedback,Keyboard } from 'react-native';
-import * as firebase from 'firebase'
-
-export default function Register({ navigation }) {
+import * as firebase from "firebase";
+export default function ForgetPassword({ navigation }) {
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [passwordConfirm, setPasswordConfirm] = useState('')
-    const OnSignUp = () => {
-        if (password !== passwordConfirm) {
-            Alert.alert('Passwords do not match')
-            return;
-        }
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+    const [reset, setReset] = useState(false)
+    const OnRetrivePassword = () => {
+        firebase.auth().sendPasswordResetEmail(email)
             .then(() => {
+                setReset(true)
 
             }, (error) => {
 
-                if (email == '' && password == '' && passwordConfirm == '') {
+                if (email == '') {
                     Alert.alert('ERROR', 'invalid credential!', [
                         { text: 'DISSMIS' }
                     ]);
                 } else {
-                    if (error.message == 'The email address is already in use by another account.') {
-                        Alert.alert('auth/email-already-in-use', error.message, [
-                            { text: 'DISMISS' }
-                        ])
-                    }else if (error.message == 'The email address is badly formatted.') {
+                    if (error.message == 'The email address is badly formatted.') {
                         Alert.alert('auth/invalid-email', error.message,
+                            [{ text: 'Dismiss' }]);
+                    } else if (error.message == 'There is no user record corresponding to this identifier. The user may have been deleted.') {
+                        Alert.alert('auth/user-not-found', error.message,
                             [{ text: 'Dismiss' }]);
                     } else {
                         Alert.alert('auth/network-request-failed', error.message, [
@@ -34,31 +28,29 @@ export default function Register({ navigation }) {
                         ])
                     }
                 }
+
             })
     }
-
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss()
         }}>
         <View style={styles.container}>
             <View style={styles.register}>
-                <Text style={styles.header}>Registration</Text>
+                <Text style={styles.header}>Forget Password</Text>
+
 
                 <TextInput style={styles.TextInput} placeholder="Your email"
                     value={email} onChangeText={(text) => setEmail(text)} underlineColorAndroid={'transparent'} />
-                <TextInput style={styles.TextInput} placeholder="Your password"
-                    value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} underlineColorAndroid={'transparent'} />
-                <TextInput style={styles.TextInput} placeholder="Password confirm"
-                    value={passwordConfirm} onChangeText={(text) => setPasswordConfirm(text)} secureTextEntry={true} underlineColorAndroid={'transparent'} />
-                <TouchableOpacity style={styles.button} onPress={() => OnSignUp()}>
-                    <Text style={styles.btntext}>Sign Up</Text>
+                {reset ? <Text>Email was sent successfully. please follow instructions to reset your password.</Text> : console.log()}
+                <TouchableOpacity style={styles.button} onPress={() => OnRetrivePassword()}>
+                    <Text style={styles.btntext}>Reset Password</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ForgetPassword')}>
-                    <Text style={styles.btntext}>Forget Password...</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')} >
+                    <Text style={styles.btntext}>Back to Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.btntext}>if you already have an account</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')} >
+                    <Text style={styles.btntext}>Back to Signup</Text>
                 </TouchableOpacity>
 
             </View>
@@ -100,6 +92,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: '#36485f',
+        paddingLeft: 60,
+        paddingRight: 60,
+    },
     btn: {
         alignSelf: 'stretch',
         alignItems: 'center',
@@ -107,13 +106,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         marginTop: 30,
         borderRadius: 20,
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#36485f',
-        paddingLeft: 60,
-        paddingRight: 60,
-        paddingBottom: 30,
     }
 });
