@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert,TouchableWithoutFeedback,Keyboard } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from 'react-native';
 import * as firebase from 'firebase'
 
 export default function Login({ navigation }) {
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -18,22 +19,27 @@ export default function Login({ navigation }) {
                         { text: 'DISSMIS' }
                     ]);
                 } else {
+                    setLoading(true)
+                    setTimeout(() => {
+                        setLoading(false)
 
-                    if (error.message == 'The email address is badly formatted.') {
-                        Alert.alert('auth/invalid-email', error.message,
-                            [{ text: 'Dismiss' }]);
-                    } else if (error.message == 'The password is invalid or the user does not have a password.') {
-                        Alert.alert('auth/wrong-password', error.message,
-                            [{ text: 'Dismiss' }]);
-                    } else if (error.message == 'There is no user record corresponding to this identifier. The user may have been deleted.') {
-                        Alert.alert('auth/user-not-found', error.message,
-                            [{ text: 'Dismiss' }]);
-                    } else {
-                        Alert.alert('auth/network-request-failed', error.message, [
-                            { text: 'DISMISS' }
-                        ])
-                    }
+                        if (error.message == 'The email address is badly formatted.') {
+                            Alert.alert('auth/invalid-email', error.message,
+                                [{ text: 'Dismiss' }]);
+                        } else if (error.message == 'The password is invalid or the user does not have a password.') {
+                            Alert.alert('auth/wrong-password', error.message,
+                                [{ text: 'Dismiss' }]);
+                        } else if (error.message == 'There is no user record corresponding to this identifier. The user may have been deleted.') {
+                            Alert.alert('auth/user-not-found', error.message,
+                                [{ text: 'Dismiss' }]);
+                        } else {
+                            Alert.alert('auth/network-request-failed', error.message, [
+                                { text: 'DISMISS' }
+                            ])
+                        }
+                    }, 500)
                 }
+
             })
     }
 
@@ -41,29 +47,32 @@ export default function Login({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss()
-            
+
         }}>
-        <View style={styles.container}>
-            <View style={styles.register}>
-                <Text style={styles.header}>Log In</Text>
+            <View style={styles.container}>
+                <View style={styles.register}>
+                    {loading ? <ActivityIndicator style={{marginTop: 130}} size="large" /> :
+                        <View>
+                            <Text style={styles.header}>Log In</Text>
 
 
-                <TextInput style={styles.TextInput} placeholder="Your email"
-                    value={email} onChangeText={(text) => setEmail(text)} underlineColorAndroid={'transparent'} />
-                <TextInput style={styles.TextInput} placeholder="Your password"
-                    value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} underlineColorAndroid={'transparent'} />
-                <TouchableOpacity style={styles.button} onPress={() => OnLoginPress()}>
-                    <Text style={styles.btntext}>Log In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ForgetPassword')}>
-                    <Text style={styles.btntext}>Forget Password...</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Register')} >
-                    <Text style={styles.btntext}>Press Here if you dont have account</Text>
-                </TouchableOpacity>
+                            <TextInput style={styles.TextInput} placeholder="Your email"
+                                value={email} onChangeText={(text) => setEmail(text)} underlineColorAndroid={'transparent'} />
+                            <TextInput style={styles.TextInput} placeholder="Your password"
+                                value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} underlineColorAndroid={'transparent'} />
+                            <TouchableOpacity style={styles.button} onPress={() => OnLoginPress()}>
+                                <Text style={styles.btntext}>Log In</Text>
+                            </TouchableOpacity>
+                        </View>}
+                    <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('ForgetPassword')}>
+                        <Text style={styles.btntext}>Forget Password...</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Register')} >
+                        <Text style={styles.btntext}>Press Here if you dont have account</Text>
+                    </TouchableOpacity>
 
+                </View>
             </View>
-        </View>
         </TouchableWithoutFeedback>
     )
 }

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import Navigator from './routes/homeStack'
+import AuthNav from './routes/AuthStack'
 import ApiKeys from './constants/ApiKeys'
-import Home from './components/Home'
 import * as firebase from 'firebase'
 export default function App() {
 
@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <TouchableWithoutFeedback>
-      {(isAuthenticated) ? <Home /> : <Navigator />}
+      {(isAuthenticated) ? <AuthNav /> : <Navigator />}
     </TouchableWithoutFeedback>
   );
 }

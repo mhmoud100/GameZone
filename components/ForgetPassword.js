@@ -42,7 +42,7 @@ export default function ForgetPassword({ navigation }) {
 
                 <TextInput style={styles.TextInput} placeholder="Your email"
                     value={email} onChangeText={(text) => setEmail(text)} underlineColorAndroid={'transparent'} />
-                {reset ? <Text>Email was sent successfully. please follow instructions to reset your password.</Text> : console.log()}
+                {reset ? <Text style={styles.txt}>Email was sent successfully. please follow instructions to reset your password.</Text> : console.log()}
                 <TouchableOpacity style={styles.button} onPress={() => OnRetrivePassword()}>
                     <Text style={styles.btntext}>Reset Password</Text>
                 </TouchableOpacity>
@@ -59,6 +59,9 @@ export default function ForgetPassword({ navigation }) {
     )
 }
 const styles = StyleSheet.create({
+    txt: {
+        color: 'white'
+    },
     register: {
         alignSelf: 'stretch',
 

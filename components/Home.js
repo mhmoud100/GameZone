@@ -12,9 +12,6 @@ export default function Home({ navigation }) {
 
 
         <View style={styles.container}>
-            <View >
-                <Text style={styles.header}>Hello</Text>
-            </View>
             <Text style={styles.text}>Welcome {user.email}</Text>
             <TouchableOpacity style={styles.button} onPress={() => OnSignOut()}>
                 <Text style={styles.btntext}>Sign Out</Text>
@@ -44,21 +41,12 @@ const styles = StyleSheet.create({
 
         backgroundColor: '#36485f',
 
-
+        
         paddingBottom: 30,
-    },
-    header: {
-
-        height: 80,
-        marginBottom: 250,
-        padding: 10,
-        paddingTop: 38,
-        backgroundColor: 'white',
-
-        fontSize: 22
     },
     text: {
         color: 'white',
         marginLeft:20,
+        marginTop: 250,
     }
 })
