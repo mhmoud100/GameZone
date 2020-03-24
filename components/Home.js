@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Button } from 'react-native';
 import * as firebase from 'firebase'
 
 export default function Home({ navigation }) {
@@ -13,10 +13,16 @@ export default function Home({ navigation }) {
 
         <View style={styles.container}>
             <Text style={styles.text}>Welcome {user.email}</Text>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddGame')}>
+                <Text style={styles.btntext}>Add Game</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ShowAll')}>
+                <Text style={styles.btntext}>Show All</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => OnSignOut()}>
                 <Text style={styles.btntext}>Sign Out</Text>
             </TouchableOpacity>
-
+            
         </View>
 
     )
@@ -48,5 +54,7 @@ const styles = StyleSheet.create({
         color: 'white',
         marginLeft:20,
         marginTop: 250,
-    }
+    },
+    
+    
 })
