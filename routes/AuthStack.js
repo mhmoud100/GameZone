@@ -1,27 +1,23 @@
 import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
-import Home from '../components/Home'
-import AddGame from '../components/AppComponenst/AddGame'
-import ShowAll from '../components/AppComponenst/ShowAll'
+import React from 'react'
+import Home from "../components/AppComponenst/home";
+import Details from "../components/AppComponenst/details";
+import Header from '../components/Header'
 const screens = {
-    Hello: {
+    Home: {
         screen: Home,
-    },
-    AddGame: {
-        screen: AddGame,
-        navigationOptions: {
-            headerLeft: () => null
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <Header navigation={navigation} title='Home' />
+
+            }
         }
     },
-    ShowAll: {
-        screen: ShowAll,
-        navigationOptions: {
-            headerLeft: () => null
-        }
-    }
-    
+    Details: {
+        screen: Details
+    },
 }
 
 const AuthStack = createStackNavigator(screens);
 
-export default createAppContainer(AuthStack);
+export default AuthStack;
