@@ -1,12 +1,12 @@
 export default {
-    FirebaseConfig: { 
-        apiKey: "AIzaSyBmdcGlqZMpBtcrAixhC-gSIN3QgTegcbc",
-        authDomain: "login-register-44d78.firebaseapp.com",
-        databaseURL: "https://login-register-44d78.firebaseio.com",
-        projectId: "login-register-44d78",
-        storageBucket: "login-register-44d78.appspot.com",
-        messagingSenderId: "492413781087",
-        appId: "1:492413781087:web:14d6c97927cfdbdda3c7ea",
-        measurementId: "G-JPNF904LKF"
-     },
+    FirebaseConfig: {
+        apiKey: "AIzaSyAQS4RVWD4ID5NH2S0jEOhMlYAm0zdbAa4",
+        authDomain: "fir-firestore-db814.firebaseapp.com",
+        databaseURL: "https://fir-firestore-db814.firebaseio.com",
+        projectId: "fir-firestore-db814",
+        storageBucket: "fir-firestore-db814.appspot.com",
+        messagingSenderId: "957705335517",
+        appId: "1:957705335517:web:bf3329a86fa83b89c56134",
+        measurementId: "G-H7WMQL0FQB"
+    },
 }
