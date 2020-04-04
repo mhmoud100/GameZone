@@ -27,15 +27,19 @@ export default function Home({ navigation }) {
   const [todos, setTodos] = useState([]);
 
  
-  
   useEffect(()=>{
-    setIsloading(true)
+    MyAsyncData()
+  },[])
+  useEffect(()=>{
+    setLoading(true)
+    
     setTimeout(() => {
-      setIsloading(false)
+      setLoading(false)
+      
     },1000)
-  })
+  },[])
 
-
+  var user = firebase.auth().currentUser;
   
  
 
@@ -44,34 +48,49 @@ export default function Home({ navigation }) {
   
  
   const PressUpdateHandler = (id, title) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter(todo => { if ((todo.id != id) == false) { todo.title = title } return true });
+    firebase.firestore().collection(`${user.email}`).doc(`${id}`).update({
+      title: title
     })
   }
   function MyAsyncData(){
-    const todosItem= []
-    firebase.firestore().collection("todos").get().then((querySnapshot) => {
+    
+    setLoading(true)
+    setTimeout(() => {
+
+    
+    firebase.firestore().collection(`${user.email}`).onSnapshot((querySnapshot) => {
+      const todosItem= []
       querySnapshot.forEach((doc) => {
-          todosItem.push(doc.data())
+          todosItem.push({
+            title :doc.data().title,
+            completed:doc.data().completed,
+            id:doc.id
+          })
+          
       });
+      
       setTodos(todosItem)
+      
   });
+  setLoading(false)
+  },1000)
   }
-  useEffect(() => {
-    MyAsyncData()
-  })
-   
   
+   
+
   
   const submitHandler = (titleName) => {
+    console.log('iam in add')
+
     if (titleName.length > 3) {
      console.log(titleName);
      
-     firebase.firestore().collection('todos').add({
+     firebase.firestore().collection(`${user.email}`).add({
       title: titleName,
       completed: false
       
-    });
+    }).then(()=>console.log('done'))
+    .catch((e)=>console.error(e))
       
       
     } else {
@@ -82,22 +101,33 @@ export default function Home({ navigation }) {
     }
 
   }
+  
+      
+  
 
-  const pressHandler = (id) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter(todo => { if ((todo.id != id) == false) { todo.completed = !todo.completed } return true });
+  
+  const pressHandler = (id,title,completed) => {
+    console.log('iam in update')
+    firebase.firestore().collection(`${user.email}`).doc(id).update({
+      title:title,
+      completed:!completed
     })
+    // .then(()=>console.warn('completed change done'))
+    // .catch((e)=>console.error(e))
     
   }
   const ay5ra = (id) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter(todo => todo.id != id);
-    })
+    console.log('iam in delete')
+    firebase.firestore().collection(`${user.email}`).doc(`${id}`).delete().then(() => {
+      console.log("Document successfully deleted!");
+  }).catch(function(error) {
+      console.error("Error removing document: ", error);
+  });
     
   }
-
+  ;
   return (
-
+    
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
       console.log("Dismissed");
@@ -123,7 +153,7 @@ export default function Home({ navigation }) {
                     console.log()}} style={{ flexDirection: 'row', flex: 1 }} >
                       <Text style={item.completed ? styles.t : styles.f}>{item.title}</Text>
                     </TouchableOpacity>
-                    <CheckBox style={styles.c} value={item.completed} onChange={() => pressHandler(item.id)} />
+                    <CheckBox style={styles.c} value={item.completed} onChange={() => pressHandler(item.id,item.title,item.completed)} />
 
                   </View>
                 )}
@@ -135,10 +165,10 @@ export default function Home({ navigation }) {
             </View>
             
                  
-
-              
+            
+            <Button onPress={() => MyAsyncData()} title="Click to Refresh" color="coral" />
           </View>
-
+          
         </View>
       }
     </TouchableWithoutFeedback>
@@ -193,4 +223,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow'
   }
 });
-

@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     },
     register: {
         alignSelf: 'stretch',
-
+        marginBottom: 150,
     },
     header: {
         fontSize: 24,
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#36485f',
         paddingLeft: 60,
         paddingRight: 60,
+        
     },
     btn: {
         alignSelf: 'stretch',

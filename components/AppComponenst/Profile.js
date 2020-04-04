@@ -1,19 +1,5 @@
 import React from 'react'
-import {
-    StyleSheet
-    , Text
-    , TouchableOpacity
-    , View
-    , FlatList
-    , Alert
-    , TouchableWithoutFeedback
-    , Keyboard
-    , CheckBox
-    , AsyncStorage
-    , Button
-    , ActivityIndicator
-    , Image 
-  } from 'react-native';
+import {Text, View} from 'react-native';
 export default function Profile() {
     return (
         <View>

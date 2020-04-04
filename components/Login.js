@@ -79,7 +79,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
     register: {
         alignSelf: 'stretch',
-
+        marginBottom: 100,
     },
     header: {
         fontSize: 24,

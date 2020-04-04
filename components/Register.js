@@ -69,7 +69,7 @@ export default function Register({ navigation }) {
 const styles = StyleSheet.create({
     register: {
         alignSelf: 'stretch',
-
+        marginBottom: 100,
     },
     header: {
         fontSize: 24,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     TextInput: {
         alignSelf: 'stretch',
         height: 40,
-        marginBottom: 30,
+        marginBottom: 10,
         color: '#fff',
         borderBottomColor: '#f8f8f8',
         borderBottomWidth: 1,
